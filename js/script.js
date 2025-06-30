@@ -56,7 +56,9 @@ if (dropdown && toggle && menu) {
         'brand-collab-14.jpeg',
         'brand-collab-15.png',
         'brand-collab-16.png',
-        'brand-collab-17.png'
+        'brand-collab-17.png',
+        'brand-collab-18.png',
+        'brand-collab-19.png'
     ];
     const carousel = document.getElementById('brand-carousel');
     if (carousel) {

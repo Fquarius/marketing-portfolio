@@ -713,4 +713,130 @@ a {
     text-align: center;
     font-weight: 500;
     line-height: 1.3;
+}
+
+/* ========== REFERENCES PAGE STYLES ========== */
+.references-heading-section {
+    margin: 2.5rem 0 1.5rem 0;
+    text-align: center;
+}
+.references-main-heading {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--purple-main);
+    margin: 0 auto 1.5rem auto;
+    letter-spacing: 0.01em;
+}
+.references-grid-section {
+    width: 100%;
+    margin: 0 auto 2.5rem auto;
+    padding: 0 1rem;
+}
+.references-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    justify-items: center;
+    align-items: stretch;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.reference-card {
+    background: #fff;
+    border-radius: 1.2rem;
+    box-shadow: 0 2px 16px #a259ff11;
+    border: 2px solid var(--purple-light);
+    padding: 2rem 1.2rem 1.5rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    max-width: 350px;
+    width: 100%;
+    transition: box-shadow 0.2s, border 0.2s;
+}
+.reference-card:hover {
+    box-shadow: 0 4px 32px #a259ff33;
+    border: 2px solid var(--purple-main);
+}
+.reference-photo {
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-light), var(--purple-main));
+    margin-bottom: 1.2rem;
+    box-shadow: 0 2px 8px #a259ff22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.reference-info {
+    width: 100%;
+    text-align: center;
+}
+.reference-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    color: var(--purple-main);
+    margin-bottom: 0.2em;
+}
+.reference-role {
+    font-size: 1.05rem;
+    color: #444;
+    margin-bottom: 0.1em;
+}
+.reference-company {
+    font-size: 1.05rem;
+    color: var(--purple-neon);
+    margin-bottom: 0.5em;
+}
+.reference-phone {
+    display: inline-block;
+    color: var(--purple-dark);
+    font-weight: 600;
+    margin-bottom: 0.7em;
+    text-decoration: underline;
+    font-size: 1.05rem;
+    transition: color 0.2s;
+}
+.reference-phone:hover {
+    color: var(--purple-main);
+}
+.reference-desc {
+    background: #faf7ff;
+    border-radius: 0.7em;
+    padding: 1em 0.7em;
+    margin-top: 0.7em;
+    font-size: 1rem;
+    color: #333;
+    box-shadow: 0 1px 4px #a259ff11;
+}
+.references-back-section {
+    text-align: center;
+    margin: 2.5rem 0 1.5rem 0;
+}
+.back-home-link {
+    color: var(--purple-main);
+    font-weight: 600;
+    font-size: 1.1rem;
+    text-decoration: none;
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    transition: background 0.2s, color 0.2s;
+}
+.back-home-link:hover {
+    background: var(--purple-light);
+    color: var(--purple-dark);
+}
+
+@media (max-width: 700px) {
+    .references-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    .reference-card {
+        max-width: 98vw;
+        padding: 1.2rem 0.5rem 1rem 0.5rem;
+    }
 } 
