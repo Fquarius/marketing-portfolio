@@ -62,6 +62,8 @@ if (dropdown && toggle && menu) {
     ];
     const carousel = document.getElementById('brand-carousel');
     if (carousel) {
+        // Clear carousel
+        carousel.innerHTML = '';
         // Add each logo once
         brandLogos.forEach(src => {
             const img = document.createElement('img');
