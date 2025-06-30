@@ -61,10 +61,13 @@ if (dropdown && toggle && menu) {
         'brand-collab-19.png'
     ];
     const carousel = document.getElementById('brand-carousel');
-    if (carousel) {
-        // Clear carousel
-        carousel.innerHTML = '';
-        // Add each logo once
+    if (!carousel) return;
+
+    // Clear carousel
+    carousel.innerHTML = '';
+    // Add each logo 3 times for a seamless infinite effect
+    const DUPLICATES = 3;
+    for (let d = 0; d < DUPLICATES; d++) {
         brandLogos.forEach(src => {
             const img = document.createElement('img');
             img.src = `files/Brands/${src}`;
@@ -72,63 +75,67 @@ if (dropdown && toggle && menu) {
             img.className = 'brand-logo';
             carousel.appendChild(img);
         });
+    }
 
-        // Duplicate logos until the carousel is at least 2x the width of the visible area
-        function fillCarousel() {
-            const outer = document.querySelector('.brand-carousel-outer');
-            if (!outer) return;
-            let totalWidth = carousel.scrollWidth;
-            const minWidth = outer.offsetWidth * 2;
-            let i = 0;
-            while (totalWidth < minWidth) {
-                const src = brandLogos[i % brandLogos.length];
-                const img = document.createElement('img');
-                img.src = `files/Brands/${src}`;
-                img.alt = src.replace(/[-_]/g, ' ').replace(/\..+$/, '');
-                img.className = 'brand-logo';
-                carousel.appendChild(img);
-                totalWidth = carousel.scrollWidth;
-                i++;
-            }
-        }
-        fillCarousel();
+    let speed = 0.5; // px per frame
+    let paused = false;
+    let userScrolling = false;
+    let scrollTimeout = null;
 
-        let speed = 0.5; // px per frame (adjust for slower/faster)
-        let paused = false;
-
-        // Pause on hover
-        const outer = document.querySelector('.brand-carousel-outer');
+    // Pause on hover
+    const outer = document.querySelector('.brand-carousel-outer');
+    if (outer) {
         outer.addEventListener('mouseenter', () => paused = true);
         outer.addEventListener('mouseleave', () => paused = false);
+    }
+    // Pause on user scroll (mouse or touch)
+    carousel.addEventListener('mousedown', () => {
+        userScrolling = true;
+        paused = true;
+    });
+    carousel.addEventListener('touchstart', () => {
+        userScrolling = true;
+        paused = true;
+    });
+    carousel.addEventListener('mouseup', () => {
+        userScrolling = false;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => paused = false, 1000);
+    });
+    carousel.addEventListener('touchend', () => {
+        userScrolling = false;
+        clearTimeout(scrollTimeout);
+        scrollTimeout = setTimeout(() => paused = false, 1000);
+    });
+    carousel.addEventListener('scroll', () => {
+        if (!userScrolling) {
+            paused = true;
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => paused = false, 1000);
+        }
+    });
 
-        function animate() {
-            if (!paused) {
-                carousel.scrollLeft += speed;
-                // If the first logo is out of view, move it to the end
-                const firstLogo = carousel.querySelector('.brand-logo');
-                if (firstLogo) {
-                    const firstRect = firstLogo.getBoundingClientRect();
-                    const carouselRect = carousel.getBoundingClientRect();
-                    if (firstRect.right < carouselRect.left) {
-                        carousel.appendChild(firstLogo);
-                        carousel.scrollLeft -= firstLogo.offsetWidth + 40; // 40 = gap
-                    }
+    function animate() {
+        if (!paused) {
+            carousel.scrollLeft += speed;
+            // If the first logo is out of view, move it to the end
+            const firstLogo = carousel.querySelector('.brand-logo');
+            if (firstLogo) {
+                const firstRect = firstLogo.getBoundingClientRect();
+                const carouselRect = carousel.getBoundingClientRect();
+                if (firstRect.right < carouselRect.left + 1) { // +1 for subpixel
+                    carousel.appendChild(firstLogo);
+                    // Adjust scrollLeft so the movement is seamless
+                    carousel.scrollLeft -= firstLogo.offsetWidth + parseInt(getComputedStyle(carousel).gap || 0);
                 }
             }
-            requestAnimationFrame(animate);
         }
-
-        carousel.style.overflowX = 'hidden';
-        carousel.scrollLeft = 0;
         requestAnimationFrame(animate);
-
-        // Refill carousel on window resize
-        window.addEventListener('resize', () => {
-            // Remove all logos except the first set
-            while (carousel.children.length > brandLogos.length) {
-                carousel.removeChild(carousel.lastChild);
-            }
-            fillCarousel();
-        });
     }
+
+    carousel.style.overflowX = 'auto';
+    carousel.scrollLeft = 0;
+    requestAnimationFrame(animate);
+
+    // On resize, do nothing (fixed duplicates)
 })(); 
