@@ -1,0 +1,24 @@
+{
+  "name": "marketing-portfolio",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fquarius/marketing-portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fquarius/marketing-portfolio/issues"
+  },
+  "homepage": "https://github.com/Fquarius/marketing-portfolio#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
