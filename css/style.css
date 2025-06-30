@@ -485,6 +485,61 @@ section {
     }
 }
 
+@media (max-width: 700px) {
+    .about-section {
+        padding: 1.2rem 0.5rem;
+        border-radius: 1rem;
+    }
+    .about-container {
+        flex-direction: column;
+        gap: 1.5rem;
+        align-items: stretch;
+    }
+    .image-holder {
+        max-width: 90vw;
+        margin: 0 auto 1.2rem auto;
+    }
+    .about-img {
+        max-width: 100vw;
+    }
+    .about-text {
+        padding: 0 0.5rem;
+    }
+    .results-section {
+        padding: 1.2rem 0.5rem;
+        border-radius: 1rem;
+    }
+    .results-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+    }
+    .result-figure {
+        max-width: 98vw;
+    }
+    .results-img {
+        max-width: 98vw;
+        max-height: 40vw;
+    }
+}
+
+@media (max-width: 480px) {
+    .main-header, .contact-footer {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+    .about-section, .results-section, .downloadables-section, .seo-footer-section {
+        padding: 0.7rem 0.1rem;
+        border-radius: 0.7rem;
+    }
+    .about-img, .results-img {
+        max-width: 100vw;
+        max-height: 60vw;
+    }
+    .result-figure figcaption {
+        font-size: 0.95rem;
+    }
+}
+
 /* ================= SMOOTH TRANSITIONS ================= */
 * {
     transition: background 0.3s, color 0.3s, box-shadow 0.3s, border 0.3s;
