@@ -302,9 +302,19 @@ section {
 }
 .results-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 2rem;
     justify-items: center;
+}
+.results-img {
+    width: 100%;
+    max-width: 320px;
+    max-height: 200px;
+    object-fit: contain;
+    border-radius: 1em;
+    box-shadow: 0 2px 8px #a259ff22;
+    background: #fff;
+    display: block;
 }
 .screenshot-placeholder {
     width: 100%;

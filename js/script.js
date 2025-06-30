@@ -39,7 +39,6 @@ if (dropdown && toggle && menu) {
 
 // ========== BRAND LOGO CAROUSEL TRUE INFINITE SCROLL ==========
 (function() {
-    // Actual list of brand-collab-x files in files/Brands
     const brandLogos = [
         'brand-collab-1.png',
         'brand-collab-2.png',
@@ -61,7 +60,7 @@ if (dropdown && toggle && menu) {
     ];
     const carousel = document.getElementById('brand-carousel');
     if (carousel) {
-        // Add each logo
+        // Add each logo once
         brandLogos.forEach(src => {
             const img = document.createElement('img');
             img.src = `files/Brands/${src}`;
@@ -69,6 +68,26 @@ if (dropdown && toggle && menu) {
             img.className = 'brand-logo';
             carousel.appendChild(img);
         });
+
+        // Duplicate logos until the carousel is at least 2x the width of the visible area
+        function fillCarousel() {
+            const outer = document.querySelector('.brand-carousel-outer');
+            if (!outer) return;
+            let totalWidth = carousel.scrollWidth;
+            const minWidth = outer.offsetWidth * 2;
+            let i = 0;
+            while (totalWidth < minWidth) {
+                const src = brandLogos[i % brandLogos.length];
+                const img = document.createElement('img');
+                img.src = `files/Brands/${src}`;
+                img.alt = src.replace(/[-_]/g, ' ').replace(/\..+$/, '');
+                img.className = 'brand-logo';
+                carousel.appendChild(img);
+                totalWidth = carousel.scrollWidth;
+                i++;
+            }
+        }
+        fillCarousel();
 
         let speed = 0.5; // px per frame (adjust for slower/faster)
         let paused = false;
@@ -88,7 +107,6 @@ if (dropdown && toggle && menu) {
                     const carouselRect = carousel.getBoundingClientRect();
                     if (firstRect.right < carouselRect.left) {
                         carousel.appendChild(firstLogo);
-                        // Optional: reset scrollLeft to avoid jump
                         carousel.scrollLeft -= firstLogo.offsetWidth + 40; // 40 = gap
                     }
                 }
@@ -96,9 +114,17 @@ if (dropdown && toggle && menu) {
             requestAnimationFrame(animate);
         }
 
-        // Set carousel to be scrollable horizontally
         carousel.style.overflowX = 'hidden';
         carousel.scrollLeft = 0;
         requestAnimationFrame(animate);
+
+        // Refill carousel on window resize
+        window.addEventListener('resize', () => {
+            // Remove all logos except the first set
+            while (carousel.children.length > brandLogos.length) {
+                carousel.removeChild(carousel.lastChild);
+            }
+            fillCarousel();
+        });
     }
 })(); 
