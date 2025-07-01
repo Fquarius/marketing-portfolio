@@ -40,6 +40,12 @@ if (dropdown && toggle && menu) {
 
 // ========== BRAND LOGO CAROUSEL TRUE INFINITE SCROLL ==========
 document.addEventListener("DOMContentLoaded", function() {
+    initBrandCarousel('carousel-track');
+    initBrandCarousel('carousel-track-references');
+    initBrandCarousel('carousel-track-personal-story');
+});
+
+function initBrandCarousel(trackId) {
     const brandLogos = [
         'brand-collab-1.png',
         'brand-collab-2.png',
@@ -61,10 +67,14 @@ document.addEventListener("DOMContentLoaded", function() {
         'brand-collab-18.png',
         'brand-collab-19.png'
     ];
-    const track = document.getElementById('carousel-track');
+    // Shuffle the brandLogos array
+    for (let i = brandLogos.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [brandLogos[i], brandLogos[j]] = [brandLogos[j], brandLogos[i]];
+    }
+    const track = document.getElementById(trackId);
     if (!track) return;
 
-    // Helper to build the logo set
     function buildLogoSet() {
         const fragment = document.createDocumentFragment();
         brandLogos.forEach(src => {
@@ -74,46 +84,38 @@ document.addEventListener("DOMContentLoaded", function() {
             img.src = `files/Brands/${src}`;
             img.alt = src.replace(/[-_]/g, ' ').replace(/\..+$/, '');
             img.setAttribute('draggable', 'false');
-            div.appendChild(img);
             fragment.appendChild(div);
+            div.appendChild(img);
         });
         return fragment;
     }
 
-    // Build and duplicate the logo set
     function setupCarousel() {
         track.innerHTML = '';
         track.appendChild(buildLogoSet());
-        track.appendChild(buildLogoSet()); // duplicate for seamless
-        setTimeout(updateAnimation, 50); // wait for images to render
+        track.appendChild(buildLogoSet());
+        setTimeout(updateAnimation, 50);
     }
 
-    // Dynamically set keyframes for seamless scroll
     function updateAnimation() {
-        // Remove any previous dynamic style
-        const prevStyle = document.getElementById('carousel-anim-style');
+        const prevStyle = document.getElementById('carousel-anim-style-' + trackId);
         if (prevStyle) prevStyle.remove();
-        // Get width of one set
         const items = track.querySelectorAll('.carousel-item');
         const setLength = items.length / 2;
         let setWidth = 0;
         for (let i = 0; i < setLength; i++) {
             setWidth += items[i].offsetWidth;
         }
-        // Set track width
         track.style.width = (setWidth * 2) + 'px';
-        // Animation duration: 50px/sec (adjust as needed)
         const duration = Math.max(30, setWidth / 50);
-        track.style.animation = `carousel-scroll ${duration}s linear infinite`;
-        // Inject keyframes
+        track.style.animation = `carousel-scroll-${trackId} ${duration}s linear infinite`;
         const style = document.createElement('style');
-        style.id = 'carousel-anim-style';
-        style.innerHTML = `@keyframes carousel-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-${setWidth}px); } }`;
+        style.id = 'carousel-anim-style-' + trackId;
+        style.innerHTML = `@keyframes carousel-scroll-${trackId} { 0% { transform: translateX(0); } 100% { transform: translateX(-${setWidth}px); } }`;
         document.head.appendChild(style);
     }
 
-    // Pause on hover
-    const carousel = document.querySelector('.carousel');
+    const carousel = track.closest('.carousel');
     if (carousel && track) {
         carousel.addEventListener('mouseenter', () => {
             track.style.animationPlayState = 'paused';
@@ -122,13 +124,9 @@ document.addEventListener("DOMContentLoaded", function() {
             track.style.animationPlayState = 'running';
         });
     }
-
-    // Responsive: recalc on resize
     window.addEventListener('resize', () => setTimeout(updateAnimation, 100));
-
-    // Initial setup
     setupCarousel();
-});
+}
 
 // ========== BRAND LOGO CAROUSEL TRUE INFINITE SCROLL ==========
 (function() {
@@ -289,4 +287,28 @@ document.addEventListener("DOMContentLoaded", function() {
   }
 
   loadConfettiScript(setupConfettiObserver);
-})(); 
+})();
+
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.querySelector('.contact-popup-btn');
+  if (btn) {
+    btn.addEventListener('click', function() {
+      alert("Hey, if you want to contact me - just do it! You can send me a quick text on WhatsApp, make a call anytime or pop over an email. :)");
+    });
+  }
+});
+
+// === Personal Story Scroll Appear Effect ===
+document.addEventListener('DOMContentLoaded', function() {
+  const sections = document.querySelectorAll('.personal-story-section');
+  const observer = new window.IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      } else {
+        entry.target.classList.remove('visible');
+      }
+    });
+  }, { threshold: 0.2 });
+  sections.forEach(section => observer.observe(section));
+}); 
