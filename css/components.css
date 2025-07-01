@@ -289,4 +289,107 @@
   padding: 0.4em 1em;
   box-shadow: 0 0.125rem 0.5rem #a259ff11;
   font-weight: 500;
+}
+
+@media (max-width: 600px) {
+  .main-header {
+    padding: 0.7em 0.7em;
+  }
+  .nav-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.7em;
+  }
+  .nav-links {
+    flex-direction: column;
+    gap: 0.7em;
+    width: 100%;
+    align-items: flex-start;
+  }
+  .nav-links li {
+    width: 100%;
+  }
+  .hero-section {
+    padding: 2.5em 0.5em 1.5em 0.5em;
+    min-height: 420px;
+  }
+  .hero-content h1 {
+    font-size: 2.1em;
+  }
+  .hero-content h2 {
+    font-size: 1.1em;
+  }
+  .carousel {
+    height: 80px;
+    padding: 0;
+  }
+  .carousel-track {
+    gap: 0.5em;
+  }
+  .carousel-item {
+    margin: 0 10px;
+  }
+  .carousel-item img {
+    height: 48px;
+    width: 80px;
+    border-radius: 0.5em;
+    box-shadow: 0 0.08rem 0.2rem #a259ff22;
+    padding: 0.2em 0;
+  }
+  .about-container {
+    flex-direction: column;
+    gap: 1.2em;
+    align-items: center;
+  }
+  .about-img {
+    width: 90vw;
+    max-width: 260px;
+    height: auto;
+    border-radius: 1.2em;
+  }
+  .results-section {
+    margin: 2em 0.2em;
+    padding: 0;
+  }
+  .results-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+  }
+  .results-img {
+    max-height: 120px;
+    border-radius: 0.7em;
+  }
+  .result-figure figcaption {
+    font-size: 0.98em;
+  }
+  .downloadables-section, .skills-section {
+    margin: 2em 0.2em;
+    padding: 1.2em 0.5em;
+    border-radius: 1.2em;
+  }
+  .downloadables-container, .skills-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+  }
+  .download-card, .skill-category {
+    border-radius: 0.8em;
+    padding: 1em;
+  }
+  .seo-footer-section {
+    margin: 2em 0.2em;
+    padding: 1.2em 0.5em;
+    border-radius: 0.8em;
+  }
+  .references-grid {
+    grid-template-columns: 1fr;
+    gap: 1.2em;
+  }
+  .reference-card {
+    border-radius: 0.8em;
+    padding: 1.2em 0.7em;
+  }
+  .contact-footer {
+    padding: 1.2em 0.5em;
+    border-radius: 0.8em 0.8em 0 0;
+  }
 } 
