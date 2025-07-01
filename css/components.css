@@ -291,14 +291,31 @@
   font-weight: 500;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  /* General improvements */
+  html, body {
+    overflow-x: hidden;
+  }
+  body {
+    padding: 0;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  section, .references-heading-section, .references-back-section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin-bottom: 2rem;
+  }
+  /* Header & Navigation */
   .main-header {
     padding: 0.7em 0.7em;
   }
   .nav-container {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 0.7em;
+    padding: 0.7em 0.5em;
   }
   .nav-links {
     flex-direction: column;
@@ -309,44 +326,84 @@
   .nav-links li {
     width: 100%;
   }
+  .nav-links a {
+    padding: 0.8em 0.5em;
+    font-size: 1.1em;
+    border-radius: 0.5em;
+    display: block;
+  }
+  .logo {
+    font-size: 1.4em;
+    text-align: left;
+    margin-bottom: 0.5em;
+  }
+  /* Hamburger menu placeholder (if implemented) */
+  /* .hamburger { display: block; } */
+
+  /* Hero/Intro Section */
   .hero-section {
     padding: 2.5em 0.5em 1.5em 0.5em;
     min-height: 420px;
   }
   .hero-content h1 {
-    font-size: 2.1em;
+    font-size: 2em;
+    margin-bottom: 0.5em;
   }
   .hero-content h2 {
     font-size: 1.1em;
+    margin-bottom: 1.2em;
   }
-  .carousel {
+  .carousel, .brand-carousel-outer {
     height: 80px;
     padding: 0;
+    margin: 1em 0 0 0;
   }
-  .carousel-track {
+  .carousel-track, .brand-carousel {
     gap: 0.5em;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
   }
-  .carousel-item {
-    margin: 0 10px;
+  .carousel-item, .brand-logo {
+    margin: 0 8px;
+    width: 80px !important;
+    height: 48px !important;
+    min-width: 80px !important;
+    min-height: 48px !important;
+    max-width: 80px !important;
+    max-height: 48px !important;
+    padding: 0.2em 0;
+    border-radius: 0.5em;
   }
-  .carousel-item img {
-    height: 48px;
-    width: 80px;
+  .carousel-item img, .brand-logo {
+    width: 80px !important;
+    height: 48px !important;
+    object-fit: contain;
     border-radius: 0.5em;
     box-shadow: 0 0.08rem 0.2rem #a259ff22;
-    padding: 0.2em 0;
   }
+
+  /* About/Profile Section */
   .about-container {
     flex-direction: column;
     gap: 1.2em;
     align-items: center;
+    text-align: center;
   }
   .about-img {
     width: 90vw;
     max-width: 260px;
     height: auto;
     border-radius: 1.2em;
+    margin: 0 auto 1em auto;
+    display: block;
   }
+  .about-text {
+    font-size: 1em;
+    padding: 0 0.2em;
+  }
+
+  /* Results/Stats Section */
   .results-section {
     margin: 2em 0.2em;
     padding: 0;
@@ -355,13 +412,26 @@
     grid-template-columns: 1fr;
     gap: 1.2em;
   }
+  .result-figure {
+    margin-bottom: 1.2em;
+    padding: 1em 0.5em;
+    background: #fff8ffcc;
+    border-radius: 1em;
+    box-shadow: 0 0.08rem 0.2rem #a259ff11;
+  }
   .results-img {
+    max-width: 90vw;
     max-height: 120px;
     border-radius: 0.7em;
+    margin: 0 auto 0.5em auto;
+    display: block;
   }
   .result-figure figcaption {
-    font-size: 0.98em;
+    font-size: 1em;
+    text-align: center;
   }
+
+  /* Downloadables & Skills Section */
   .downloadables-section, .skills-section {
     margin: 2em 0.2em;
     padding: 1.2em 0.5em;
@@ -374,12 +444,17 @@
   .download-card, .skill-category {
     border-radius: 0.8em;
     padding: 1em;
+    margin-bottom: 1.2em;
   }
-  .seo-footer-section {
-    margin: 2em 0.2em;
-    padding: 1.2em 0.5em;
-    border-radius: 0.8em;
+  .skill-category h4 {
+    font-size: 1.1em;
+    margin-bottom: 0.7em;
   }
+  .skill-category ul {
+    margin-bottom: 0.7em;
+  }
+
+  /* References Section */
   .references-grid {
     grid-template-columns: 1fr;
     gap: 1.2em;
@@ -387,10 +462,90 @@
   .reference-card {
     border-radius: 0.8em;
     padding: 1.2em 0.7em;
+    margin-bottom: 1.2em;
+    font-size: 1em;
   }
+  .reference-name, .reference-name-link {
+    font-size: 1.1em;
+    padding: 0.3em 0;
+    display: block;
+  }
+  .reference-phone {
+    font-size: 1em;
+    padding: 0.3em 0;
+    display: block;
+    word-break: break-all;
+  }
+  .reference-desc {
+    font-size: 0.98em;
+    margin-top: 0.7em;
+  }
+
+  /* Personal Story Page */
+  .personal-story-header-section h1 {
+    font-size: 1.5em;
+  }
+  .personal-story-section {
+    margin-top: 2.5rem;
+    padding: 0 0.2em;
+  }
+  .story-image-frame {
+    max-width: 95vw;
+    padding: 0.3em;
+    margin: 0 auto 1em auto;
+  }
+  .story-text {
+    font-size: 1em;
+    line-height: 1.7;
+    padding: 1em 1em 0.8em 1em;
+    margin-bottom: 1em;
+  }
+  .story-images-row {
+    flex-direction: column;
+    gap: 1.2em;
+    margin-bottom: 1.5rem;
+  }
+  /* Commercial work images */
+  #story-commercial-work .story-image-frame {
+    max-width: 99vw;
+  }
+  #story-commercial-work .story-image {
+    max-width: 99vw;
+  }
+  #story-commercial-work .story-image-crop {
+    max-width: 99vw;
+    max-height: 198px;
+    height: 198px;
+  }
+
+  /* Footer */
   .contact-footer {
     padding: 1.2em 0.5em;
     border-radius: 0.8em 0.8em 0 0;
+    font-size: 1em;
+  }
+  .contact-footer h4 {
+    font-size: 1.1em;
+  }
+  .contact-footer address {
+    font-size: 1em;
+    line-height: 1.5;
+  }
+  .contact-popup-btn {
+    font-size: 1.1em;
+    padding: 1em 2em;
+    margin-top: 1.2em;
+    border-radius: 0.8em;
+    min-width: 44px;
+    min-height: 44px;
+  }
+  /* Back link */
+  .back-home-link {
+    font-size: 1em;
+    padding: 0.7em 1.2em;
+    border-radius: 0.7em;
+    margin-bottom: 1.2em;
+    display: inline-block;
   }
 }
 
