@@ -1,3 +1,4 @@
+console.log("Carousel script loaded");
 // ========== SMOOTH SCROLL NAVIGATION ==========
 document.querySelectorAll('.nav-links a').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -38,6 +39,98 @@ if (dropdown && toggle && menu) {
 }
 
 // ========== BRAND LOGO CAROUSEL TRUE INFINITE SCROLL ==========
+document.addEventListener("DOMContentLoaded", function() {
+    const brandLogos = [
+        'brand-collab-1.png',
+        'brand-collab-2.png',
+        'brand-collab-3.png',
+        'brand-collab-4.png',
+        'brand-collab-5.jpeg',
+        'brand-collab-6.png',
+        'brand-collab-7.png',
+        'brand-collab-8.webp',
+        'brand-collab-9.png',
+        'brand-collab-10.png',
+        'brand-collab-11.png',
+        'brand-collab-12.png',
+        'brand-collab-13.png',
+        'brand-collab-14.jpeg',
+        'brand-collab-15.png',
+        'brand-collab-16.png',
+        'brand-collab-17.png',
+        'brand-collab-18.png',
+        'brand-collab-19.png'
+    ];
+    const track = document.getElementById('carousel-track');
+    if (!track) return;
+
+    // Helper to build the logo set
+    function buildLogoSet() {
+        const fragment = document.createDocumentFragment();
+        brandLogos.forEach(src => {
+            const div = document.createElement('div');
+            div.className = 'carousel-item';
+            const img = document.createElement('img');
+            img.src = `files/Brands/${src}`;
+            img.alt = src.replace(/[-_]/g, ' ').replace(/\..+$/, '');
+            img.setAttribute('draggable', 'false');
+            div.appendChild(img);
+            fragment.appendChild(div);
+        });
+        return fragment;
+    }
+
+    // Build and duplicate the logo set
+    function setupCarousel() {
+        track.innerHTML = '';
+        track.appendChild(buildLogoSet());
+        track.appendChild(buildLogoSet()); // duplicate for seamless
+        setTimeout(updateAnimation, 50); // wait for images to render
+    }
+
+    // Dynamically set keyframes for seamless scroll
+    function updateAnimation() {
+        // Remove any previous dynamic style
+        const prevStyle = document.getElementById('carousel-anim-style');
+        if (prevStyle) prevStyle.remove();
+        // Get width of one set
+        const items = track.querySelectorAll('.carousel-item');
+        const setLength = items.length / 2;
+        let setWidth = 0;
+        for (let i = 0; i < setLength; i++) {
+            setWidth += items[i].offsetWidth;
+        }
+        // Set track width
+        track.style.width = (setWidth * 2) + 'px';
+        // Animation duration: 50px/sec (adjust as needed)
+        const duration = Math.max(30, setWidth / 50);
+        track.style.animation = `carousel-scroll ${duration}s linear infinite`;
+        // Inject keyframes
+        const style = document.createElement('style');
+        style.id = 'carousel-anim-style';
+        style.innerHTML = `@keyframes carousel-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-${setWidth}px); } }`;
+        document.head.appendChild(style);
+    }
+
+    // Pause on hover
+    const carousel = document.querySelector('.carousel');
+    if (carousel && track) {
+        carousel.addEventListener('mouseenter', () => {
+            track.style.animationPlayState = 'paused';
+        });
+        carousel.addEventListener('mouseleave', () => {
+            track.style.animationPlayState = 'running';
+        });
+    }
+
+    // Responsive: recalc on resize
+    window.addEventListener('resize', () => setTimeout(updateAnimation, 100));
+
+    // Initial setup
+    setupCarousel();
+});
+
+// ========== BRAND LOGO CAROUSEL TRUE INFINITE SCROLL ==========
 (function() {
     const brandLogos = [
         'brand-collab-1.png',
@@ -65,22 +158,24 @@ if (dropdown && toggle && menu) {
 
     // Clear carousel
     carousel.innerHTML = '';
-    // Add each logo 3 times for a seamless infinite effect
-    const DUPLICATES = 3;
+    // Add each logo 4 times for a seamless infinite effect
+    const DUPLICATES = 4;
     for (let d = 0; d < DUPLICATES; d++) {
         brandLogos.forEach(src => {
             const img = document.createElement('img');
             img.src = `files/Brands/${src}`;
             img.alt = src.replace(/[-_]/g, ' ').replace(/\..+$/, '');
             img.className = 'brand-logo';
+            img.setAttribute('draggable', 'false');
             carousel.appendChild(img);
         });
     }
 
-    let speed = 0.5; // px per frame
+    let speed = 2; // px per frame (increased for visibility)
     let paused = false;
     let userScrolling = false;
     let scrollTimeout = null;
+    let lastScrollLeft = 0;
 
     // Pause on hover
     const outer = document.querySelector('.brand-carousel-outer');
@@ -100,33 +195,42 @@ if (dropdown && toggle && menu) {
     carousel.addEventListener('mouseup', () => {
         userScrolling = false;
         clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => paused = false, 1000);
+        scrollTimeout = setTimeout(() => paused = false, 1500);
     });
     carousel.addEventListener('touchend', () => {
         userScrolling = false;
         clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => paused = false, 1000);
+        scrollTimeout = setTimeout(() => paused = false, 1500);
     });
     carousel.addEventListener('scroll', () => {
-        if (!userScrolling) {
+        // If scrollLeft changed by user, pause auto-scroll
+        if (carousel.scrollLeft !== lastScrollLeft) {
             paused = true;
             clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => paused = false, 1000);
+            scrollTimeout = setTimeout(() => paused = false, 1500);
+            lastScrollLeft = carousel.scrollLeft;
         }
     });
+
+    function getGap() {
+        // Fallback to 40px if gap is not set or is NaN
+        const gap = parseInt(getComputedStyle(carousel).gap);
+        return isNaN(gap) ? 40 : gap;
+    }
 
     function animate() {
         if (!paused) {
             carousel.scrollLeft += speed;
             // If the first logo is out of view, move it to the end
-            const firstLogo = carousel.querySelector('.brand-logo');
+            let firstLogo = carousel.querySelector('.brand-logo');
             if (firstLogo) {
                 const firstRect = firstLogo.getBoundingClientRect();
                 const carouselRect = carousel.getBoundingClientRect();
                 if (firstRect.right < carouselRect.left + 1) { // +1 for subpixel
+                    const width = firstLogo.offsetWidth + getGap();
                     carousel.appendChild(firstLogo);
                     // Adjust scrollLeft so the movement is seamless
-                    carousel.scrollLeft -= firstLogo.offsetWidth + parseInt(getComputedStyle(carousel).gap || 0);
+                    carousel.scrollLeft -= width;
                 }
             }
         }
@@ -138,4 +242,51 @@ if (dropdown && toggle && menu) {
     requestAnimationFrame(animate);
 
     // On resize, do nothing (fixed duplicates)
+})();
+
+// ========== CONFETTI ON RESULTS SECTION VIEW ==========
+(function() {
+  // Load canvas-confetti from CDN if not present
+  function loadConfettiScript(callback) {
+    if (window.confetti) return callback();
+    const script = document.createElement('script');
+    script.src = 'https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js';
+    script.onload = callback;
+    document.head.appendChild(script);
+  }
+
+  function fireConfetti() {
+    if (!window.confetti) return;
+    // Left side
+    confetti({
+      particleCount: 80,
+      angle: 60,
+      spread: 55,
+      origin: { x: 0, y: 0.2 },
+      colors: ['#a259ff', '#fff', '#7f3cff', '#f7c1ff', '#e0e0e0']
+    });
+    // Right side
+    confetti({
+      particleCount: 80,
+      angle: 120,
+      spread: 55,
+      origin: { x: 1, y: 0.2 },
+      colors: ['#a259ff', '#fff', '#7f3cff', '#f7c1ff', '#e0e0e0']
+    });
+  }
+
+  function setupConfettiObserver() {
+    const resultsSection = document.querySelector('.results-section');
+    if (!resultsSection) return;
+    const observer = new window.IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          fireConfetti();
+        }
+      });
+    }, { threshold: 0.5 });
+    observer.observe(resultsSection);
+  }
+
+  loadConfettiScript(setupConfettiObserver);
 })(); 

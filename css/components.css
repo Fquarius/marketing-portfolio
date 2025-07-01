@@ -32,6 +32,9 @@
     padding: 0.625rem 0;
     opacity: 0.7;
     transition: opacity 0.3s;
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
 }
 .brand-logo:hover { opacity: 1; }
 
@@ -217,4 +220,73 @@
 .back-home-link:hover {
     background: var(--purple-light);
     color: var(--purple-dark);
+}
+
+/* ========== INFINITE BRAND CAROUSEL ========== */
+.carousel {
+  width: 100%;
+  overflow: hidden;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  height: 130px;
+  display: flex;
+  align-items: center;
+}
+.carousel-track {
+  display: flex;
+  width: max-content;
+  animation: scroll-left 50s linear infinite;
+  align-items: center;
+}
+.carousel-item {
+  flex: 0 0 auto;
+  margin: 0 32px;
+  display: flex;
+  align-items: center;
+}
+.carousel-item img {
+  height: 110px;
+  width: 180px;
+  object-fit: contain;
+  background: var(--white);
+  border-radius: 0.7em;
+  box-shadow: 0 0.125rem 0.5rem #a259ff22;
+  opacity: 0.7;
+  transition: opacity 0.3s;
+  user-select: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  display: block;
+}
+.carousel-item img:hover {
+  opacity: 1;
+}
+@keyframes scroll-left {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.hobbies-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5em;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.hobbies-list li {
+  padding-left: 0;
+  position: relative;
+  font-size: 1.05em;
+  color: #444;
+  background: #f7f3ff;
+  border-radius: 0.7em;
+  padding: 0.4em 1em;
+  box-shadow: 0 0.125rem 0.5rem #a259ff11;
+  font-weight: 500;
 } 
